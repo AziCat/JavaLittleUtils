@@ -11,4 +11,6 @@
 	* MD5Util
 		* |-MD5Util.java 							`字符转MD5`
 	* Reflect
-		* |-Reflect.java 							`反射功能`	
+		* |-Reflect.java 							`反射功能`
+	* HttpRequest
+		* |-HttpPostXmlUtil.java 					`提交http的post请求，匿名发送xml`
