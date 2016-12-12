@@ -56,7 +56,7 @@ public class CallWebService {
 	
 	public static void main(String[] args) {
 		try {
-			JzptStub s = new JzptStub("http://127.0.0.1:8080/WebService/services/jzpt?wsdl");
+			JzptStub s = new JzptStub("http://127.0.0.1:8080/WebService/services/jzpt?wsdl");//JzptStub是通过axis2的工具wsdl2java生成的类
 			JzptStub.Test t = new JzptStub.Test();
 			t.setB("fffb");
 			t.setA("a");
