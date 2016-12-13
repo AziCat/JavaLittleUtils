@@ -1,0 +1,3 @@
+1、根据deleteFile.jar的位置，用文本编辑器修改start.bat中的路径
+2、修改 deleteFile.jar\cn\sinobest\util\config.properties 配置文件，设置要删除的目录、文件类型、保留天数和日志存放路径
+3、将start.bat加入windows任务计划程序中

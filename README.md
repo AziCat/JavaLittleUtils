@@ -16,3 +16,6 @@
 		* |-HttpPostXmlUtil.java 					`提交http的post请求，匿名发送xml`
 	* CallWebService
 		* |-CallWebService.java 					`java调用webservice，需要相关axis2的jar包`
+	* deleteFile
+		* |-cn.sinobest.AutoDelete.java 			`程序入口，详情请看-配置说明.txt`	
+		
