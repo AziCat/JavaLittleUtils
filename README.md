@@ -20,3 +20,4 @@
 		* |-cn.sinobest.AutoDelete.java 			`程序入口，详情请看-配置说明.txt`	
 	* DesignPattern
 		* |-SimpleFactory 							`简单工厂模式`		
+		* |-AbstractFactory 						`抽象工厂模式`
