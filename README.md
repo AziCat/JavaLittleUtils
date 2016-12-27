@@ -21,5 +21,6 @@
 	* DesignPattern
 		* |-SimpleFactory 							`简单工厂模式`		
 		* |-AbstractFactory 						`抽象工厂模式`
+		* |-Singleton								`单例模式`
 	* JsonUtil
 		* |-JsonUtil.java 							`Json相关操作工具`
