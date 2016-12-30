@@ -24,3 +24,6 @@
 		* |-Singleton								`单例模式`
 	* JsonUtil
 		* |-JsonUtil.java 							`Json相关操作工具`
+	* insertDB
+		* |-App.java 								`解析xml文件并进行入库`		
+		
