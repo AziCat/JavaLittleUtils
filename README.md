@@ -26,4 +26,6 @@
 		* |-JsonUtil.java 							`Json相关操作工具`
 	* insertDB
 		* |-App.java 								`解析xml文件并进行入库`		
-		
+	* PackageUtil
+		* |-App.java 								`打包工具（需要修改配置）`		
+				
