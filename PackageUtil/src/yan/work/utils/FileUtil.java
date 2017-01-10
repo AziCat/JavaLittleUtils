@@ -64,16 +64,12 @@ public class FileUtil {
 				}
 			}
 		}
-		File f = new File(fileName);									//获取文件
-		if(!f.exists()){
-			try {
-				f.createNewFile();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}								
-		}
 	}
+	/**
+	 * 文件复制	targetFile-》packFile
+	 * @param targetFile
+	 * @param packFile
+	 */
 	private static void copyFile(File targetFile, File packFile) {
 		InputStream fis = null;  
 	    OutputStream fos = null;  
@@ -101,8 +97,8 @@ public class FileUtil {
 	@SuppressWarnings("static-access")
 	public static List<String> getPackageFileList(){
 		List<String> list = new ArrayList<String>();
-		InputStream is;
-		BufferedReader br;
+		InputStream is = null;
+		BufferedReader br = null;
 		try {
 			//is = new FileInputStream(f);
 			is = FileUtil.class.getResourceAsStream("packageList");
@@ -116,8 +112,14 @@ public class FileUtil {
 				//System.out.println(targetPath);
 			}
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} finally {
+			try {
+				br.close();
+				is.close();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 		
 		return list;
@@ -128,7 +130,6 @@ public class FileUtil {
 			try {
 				is.close();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 	}
@@ -137,7 +138,6 @@ public class FileUtil {
 			try {
 				os.close();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 	}
