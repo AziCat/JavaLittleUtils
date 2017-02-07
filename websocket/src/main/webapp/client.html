@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<script src="js/sockjs.min.js"></script>
+<script>
+//var sock = new SockJS('http://localhost:8080/WebSocketSever/sockjs/ws');
+var sock = new WebSocket('ws://localhost:8080/webwocket/ws');
+ sock.onopen = function() {
+     console.log('open');
+ };
+ sock.onmessage = function(e) {
+     console.log('message', e.data);
+ };
+ sock.onclose = function() {
+     console.log('close');
+ };
+
+ //sock.send('test');
+ //sock.close();
+</script>
+<title>测试页面</title>
+</head>
+<body>
+</body>
+</html>

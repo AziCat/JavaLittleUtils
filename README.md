@@ -29,4 +29,5 @@
 		* |-App.java 								`解析xml文件并进行入库`		
 	* PackageUtil
 		* |-App.java 								`打包工具（需要修改配置）`		
-				
+	* websocket
+		* |`websocket实例，运行环境apache-tomcat-7.0.63，jdk1.7。使用spring MVC4.0，sock.js兼容了不支持WebSocket的浏览器如IE。相关jar包见pom.xml文件`
