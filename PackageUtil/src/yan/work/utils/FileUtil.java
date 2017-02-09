@@ -50,8 +50,9 @@ public class FileUtil {
 		for(File targetFile:fileArr){
 			String targetName = targetFile.getName();
 			if("java".equals(fileName.split("\\.")[1])){				//如果是java文件
-				if(targetName.startsWith(fileName.split("\\.")[0])
-						&&targetName.endsWith("class")){				//复制内容
+				if((targetName.split("\\.")[0].startsWith(fileName.split("\\.")[0])&&!targetName.split("\\.")[0].equals(fileName.split("\\.")[0])
+						&&targetName.endsWith("class")&&targetName.contains("$"))
+						||targetName.split("\\.")[0].equals(fileName.split("\\.")[0])){				//复制内容
 					File packFile = new File(packagePath+dir+targetName);
 					packFile.createNewFile();
 					copyFile(targetFile,packFile);
@@ -95,7 +96,8 @@ public class FileUtil {
 	 * @return
 	 */
 	@SuppressWarnings("static-access")
-	public static List<String> getPackageFileList(){
+	public static List<String> getPackageFileList(String filtStr){
+		if(StringUtil.isEmpty(filtStr)) filtStr = config.filtStr;
 		List<String> list = new ArrayList<String>();
 		InputStream is = null;
 		BufferedReader br = null;
@@ -106,8 +108,12 @@ public class FileUtil {
 			String str = null;
 			while(null!=(str=br.readLine())){
 				if(str.indexOf(".")<0) continue;					//过滤目录
-				String targetPath = str.replace(config.filtStr, "").replace("src", config.filtSrc)
-						.replaceAll("/", "\\\\");
+				//System.out.println(str);
+				String targetPath = str.replace(filtStr, "");
+				targetPath =	targetPath.replace("framework_src", config.filtSrc);
+				targetPath =	targetPath.replace("src", config.filtSrc);
+				targetPath =	targetPath.replace("framework_ga", config.filtSrc);
+				targetPath =	targetPath.replaceAll("/", "\\\\");
 				list.add(targetPath);
 				//System.out.println(targetPath);
 			}
