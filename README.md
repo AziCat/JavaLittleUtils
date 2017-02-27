@@ -13,7 +13,7 @@
 		* |-Reflect.java 							`反射功能`
 	* HttpRequest
 		* |-HttpPostXmlUtil.java 					`提交http的post请求，匿名发送xml`
-		* |-HttpClientUtils.java					`httpclient发送get\post请求`
+		* |-HttpClientUtils.java					`httpclient发送get\post\put请求`
 	* CallWebService
 		* |-CallWebService.java 					`java调用webservice，需要相关axis2的jar包`
 	* deleteFile
