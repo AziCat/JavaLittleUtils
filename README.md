@@ -24,6 +24,7 @@
 		* |-Singleton								`单例模式`
 		* |-Prototype								`原型模式`
 		* |-adapter									`类适配器模式`
+		* |-adapter1								`对象适配器模式`
 	* JsonUtil
 		* |-JsonUtil.java 							`Json相关操作工具`
 	* insertDB
