@@ -35,4 +35,5 @@
 		* |`websocket实例，运行环境apache-tomcat-7.0.63，jdk1.7。使用spring MVC4.0，sock.js兼容了不支持WebSocket的浏览器如IE。相关jar包见pom.xml文件`
 	* readExcel
 		* |-ReadExcel.java							`读取Excel文件`		
-		
+	* Javassist
+		* |-JavassistTest.java						`Javassist动态生成类`			
