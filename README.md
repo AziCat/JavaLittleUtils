@@ -39,3 +39,5 @@
 		* |-JavassistTest.java						`Javassist动态生成类`			
 	* dateutil
 		* |-DateUtil.java							`时间工具类`			
+	* base64
+		* |-Base64Util.java							`base64解码编码工具类`			
