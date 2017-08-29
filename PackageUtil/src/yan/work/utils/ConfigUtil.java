@@ -10,19 +10,25 @@ import java.util.Properties;
  *
  */
 public class ConfigUtil {
-	public static String filtStr;
-	public static String filtSrc;
-	public static String sourcePath;
-	public static String packagePath;
-	public ConfigUtil() {
+	static String buildPath;
+	static String sourcePath;
+	static String packagePath;
+	static String buildFolders;
+	static String buildReplace;
+	static String frontPath;
+	static String contextPath;
+	ConfigUtil() {
 		Properties prop = new Properties();
 		InputStream in = this.getClass().getResourceAsStream("config.properties");
 		try {
 			prop.load(in);
-			filtStr = prop.getProperty("filtStr").trim();
-			filtSrc = prop.getProperty("filtSrc").trim();
+			buildPath = prop.getProperty("buildPath").trim();
 			packagePath = prop.getProperty("packagePath").trim();
 			sourcePath = prop.getProperty("sourcePath").trim();
+			buildFolders = prop.getProperty("buildFolders").trim();
+			buildReplace = prop.getProperty("buildReplace").trim();
+			frontPath = prop.getProperty("frontPath").trim();
+			contextPath = prop.getProperty("contextPath").trim();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

@@ -12,5 +12,6 @@ public class App {
 				e.printStackTrace();
 			}
 		}
+		System.out.println("打包文件数量---->"+FileUtil.count);
 	}
 }
