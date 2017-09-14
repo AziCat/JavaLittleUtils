@@ -1,0 +1,110 @@
+-- Create table
+create table B_MESSAGE_CENTER
+(
+  systemid       VARCHAR2(32) not null,
+  message_type   VARCHAR2(32),
+  content        VARCHAR2(4000),
+  sender         VARCHAR2(100),
+  receiver       VARCHAR2(100),
+  receive_dept   VARCHAR2(12),
+  createtime     DATE,
+  deadline       DATE,
+  lastupdatetime DATE,
+  deleteflag     VARCHAR2(1) default 0,
+  stopsendflag   VARCHAR2(1) default 0,
+  ex1            VARCHAR2(100),
+  ex2            VARCHAR2(100),
+  ex3            VARCHAR2(100),
+  ex4            VARCHAR2(100),
+  ex5            DATE,
+  url            VARCHAR2(4000)
+)
+tablespace PCS_ASJDATA
+  pctfree 10
+  initrans 1
+  maxtrans 255
+  storage
+  (
+    initial 64K
+    next 1M
+    minextents 1
+    maxextents unlimited
+  );
+-- Add comments to the table
+comment on table B_MESSAGE_CENTER
+  is '消息中心';
+-- Add comments to the columns
+comment on column B_MESSAGE_CENTER.message_type
+  is '消息类型（dic=MC_TYPE）';
+comment on column B_MESSAGE_CENTER.content
+  is '消息正文';
+comment on column B_MESSAGE_CENTER.sender
+  is '发送人';
+comment on column B_MESSAGE_CENTER.receiver
+  is '接收人';
+comment on column B_MESSAGE_CENTER.receive_dept
+  is '接收单位';
+comment on column B_MESSAGE_CENTER.createtime
+  is '创建时间';
+comment on column B_MESSAGE_CENTER.deadline
+  is '消息最后期限';
+comment on column B_MESSAGE_CENTER.lastupdatetime
+  is '最后更新时间';
+comment on column B_MESSAGE_CENTER.deleteflag
+  is '删除标记';
+comment on column B_MESSAGE_CENTER.stopsendflag
+  is '停止推送标记';
+comment on column B_MESSAGE_CENTER.url
+  is '转跳链接';
+-- Create/Recreate indexes
+create index BMC_DEADLINE on B_MESSAGE_CENTER (DEADLINE)
+  tablespace PCS_ASJDATA
+  pctfree 10
+  initrans 2
+  maxtrans 255
+  storage
+  (
+    initial 64K
+    next 1M
+    minextents 1
+    maxextents unlimited
+  );
+create index BMC_MESSAGE_TYPE on B_MESSAGE_CENTER (MESSAGE_TYPE)
+  tablespace PCS_ASJDATA
+  pctfree 10
+  initrans 2
+  maxtrans 255
+  storage
+  (
+    initial 64K
+    next 1M
+    minextents 1
+    maxextents unlimited
+  );
+create index BMC_RECEIVER on B_MESSAGE_CENTER (RECEIVER)
+  tablespace PCS_ASJDATA
+  pctfree 10
+  initrans 2
+  maxtrans 255
+  storage
+  (
+    initial 64K
+    next 1M
+    minextents 1
+    maxextents unlimited
+  );
+-- Create/Recreate primary, unique and foreign key constraints
+alter table B_MESSAGE_CENTER
+  add primary key (SYSTEMID)
+  using index
+  tablespace PCS_ASJDATA
+  pctfree 10
+  initrans 2
+  maxtrans 255
+  storage
+  (
+    initial 64K
+    next 1M
+    minextents 1
+    maxextents unlimited
+  );

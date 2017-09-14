@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>消息中心客户端demo</title>
+    <style type="text/css">
+        #connect-container {
+            float: left;
+            width: 400px
+        }
+
+        #connect-container div {
+            padding: 5px;
+        }
+
+        #console-container {
+            margin-left: 15px;
+            width: 1000px;
+        }
+
+        #console {
+            border: 1px solid #CCCCCC;
+            border-right-color: #999999;
+            border-bottom-color: #999999;
+            height: 170px;
+            overflow-y: scroll;
+            padding: 5px;
+            width: 100%;
+        }
+
+        #console p {
+            padding: 0;
+            margin: 0;
+        }
+    </style>
+    <script src="sockjs.js"></script>
+    <script src="jquery-1.7.2.min.js"></script>
+    <script src="json2.js"></script>
+    <script type="text/javascript">
+        //$(function () {
+        var ws = null;
+
+
+        function setConnected(connected) {
+            document.getElementById('connect').disabled = connected;
+            document.getElementById('disconnect').disabled = !connected;
+            /*document.getElementById('echo').disabled = !connected;*/
+        }
+
+        function connect() {
+            var target = document.getElementById('target').value;
+            var userid = document.getElementById('userid').value;
+            ws = new SockJS(target+"?userid="+userid);
+            //连接打开
+            ws.onopen = function () {
+                setConnected(true);
+                alert("连接打开。");
+            };
+            //接收消息
+            ws.onmessage = function (event) {
+                var jsonData = JSON.parse(event.data);
+                var header = jsonData['header'];
+                var status = jsonData['status'];
+                var success = jsonData['success'];
+                var msg = jsonData['msg'];
+                var items = jsonData['items'];
+                if ("1" === success) {
+                    //成功
+                    if ("MESSAGE" === header) {
+                        //推送消息
+                        showMessage(items, status);
+                    } else if("RETURN" === header){
+                        //调用返回
+                        alert(msg);
+                        //刷新
+                        refresh();
+
+                    }
+                } else {
+                    //失败
+                    alert(msg);
+                }
+            };
+            //断开
+            ws.onclose = function () {
+                alert("断开");
+                $("#tableBody").html("");
+                $("#dataTable").css("display","none");
+                $("#noMsg").css("display","none");
+                setConnected(false);
+            };
+        }
+        function refresh() {
+            var userid = document.getElementById('userid').value;
+            //消息体
+            var clientMessage = {};
+            clientMessage.header = "REFRESH";//刷新
+            clientMessage.status = "FULL";//全量
+            clientMessage.userid = userid;//警号
+            if(null !== ws){
+                ws.send(JSON.stringify(clientMessage));
+            }
+        }
+        function disconnect() {
+            if (ws !== null) {
+                ws.close();
+                ws = null;
+            }
+            setConnected(false);
+        }
+
+        /**
+         * 显示消息
+         * @param messageList 消息列表
+         * @param status 消息状态 INCREMENT-增量；FULL-全量
+         */
+        function showMessage(messageList, status) {
+            var size = messageList.length;
+            if (0 === size) {
+                $("#noMsg").css("display", "");
+            }else {
+                var htmlStr = "";
+                if("FULL" === status){
+                    //清空表格
+                    $("#tableBody").html("");
+                }else if("INCREMENT" === status){
+                    htmlStr = $("#tableBody").html();
+                }
+
+                var messageHtml = "";
+                //遍历消息列表
+                for(var i=0;i<size;i++){
+                    var item = messageList[i];
+                    messageHtml += "<tr>" +
+                        "<td>"+item['createtime']+"</td>" +
+                        "<td>"+item['message_type_cn']+"</td>" +
+                        "<td>"+item['content']+"</td>" +
+                        "<td>" +
+                        "<button onclick=\"del('"+item['systemid']+"')\">删除</button>" +
+                        "</td>" +
+                        "<td>" +
+                        "<button onclick=\"stopSend('"+item['systemid']+"')\">不推送</button>" +
+                        "</td>" +
+                        "</tr>";
+                }
+                $("#dataTable").css("display","");
+                $("#noMsg").css("display", "none");
+                $("#tableBody").html("");
+                var allHtmlStr = messageHtml+htmlStr;
+                $("#tableBody").html(allHtmlStr);
+            }
+        }
+
+        function del(id) {
+            var userid = document.getElementById('userid').value;
+            var idArr = [];
+            idArr.push(id);
+            //消息体
+            var clientMessage = {};
+            clientMessage.header = "DELETE";//删除
+            clientMessage.status = "LOGIC";//逻辑删除
+            clientMessage.userid = userid;//警号
+            clientMessage.params = {};//参数
+
+            var param = clientMessage.params;
+            param.ids = idArr;
+            if(null !== ws){
+                ws.send(JSON.stringify(clientMessage));
+            }
+        }
+        function stopSend(id) {
+            var userid = document.getElementById('userid').value;
+            var idArr = [];
+            idArr.push(id);
+            //消息体
+            var clientMessage = {};
+            clientMessage.header = "UPDATE";//更新
+            clientMessage.status = "STOPSEND";//停止推送
+            clientMessage.userid = userid;//警号
+            clientMessage.params = {};//参数
+            var param = clientMessage.params;
+            param.ids = idArr;
+            if(null !== ws){
+                ws.send(JSON.stringify(clientMessage));
+            }
+        }
+
+        // });
+
+    </script>
+</head>
+<body>
+<div>
+    <div id="connect-container">
+        <div>连接地址：
+            <input id="target" type="text" size="40" style="width: 350px"
+                   value="http://192.168.0.101:7070/msg/connect"/>
+        </div>
+        <div>警号：
+            <input id="userid" type="text" size="40" style="width: 350px"
+                   value="sylmj"/>
+        </div>
+        <div>
+            <button id="connect" onclick="connect();">连接</button>
+            <button id="disconnect" disabled="disabled" onclick="disconnect();">断开</button>
+        </div>
+        <!--<div>-->
+        <!--<textarea id="message" style="width: 350px">Here is a message!</textarea>-->
+        <!--</div>-->
+        <!--<div>-->
+        <!--<button id="echo" onclick="echo();" disabled="disabled">Echo message</button>-->
+        <!--</div>-->
+    </div>
+    <div id="console-container">
+        <div id="console">
+            <span id="noMsg" style="color: red;display: none">没有消息</span>
+            <table id="dataTable" style="display: none" border="1">
+                <tbody id="tableBody"></tbody>
+            </table>
+        </div>
+    </div>
+</div>
+</body>
+</html>

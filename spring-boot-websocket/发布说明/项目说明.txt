@@ -1,0 +1,12 @@
+消息中心
+    -jdk1.8
+    -springBoot
+    -websocket
+    -sockJS
+    -maven
+
+应用配置：
+    resources/application.properties
+
+日志配置：
+    resources/logback.xml

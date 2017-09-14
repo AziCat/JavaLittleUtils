@@ -1,0 +1,58 @@
+-- Create table
+create table B_MESSAGE_CENTER_LOG
+(
+  systemid   VARCHAR2(32) not null,
+  messageid  VARCHAR2(4000),
+  type       VARCHAR2(100),
+  param      VARCHAR2(4000),
+  result     VARCHAR2(4000),
+  createtime DATE,
+  clientip   VARCHAR2(100),
+  ex1        VARCHAR2(100),
+  ex2        VARCHAR2(100),
+  ex3        VARCHAR2(100),
+  ex4        VARCHAR2(100),
+  ex5        DATE
+)
+tablespace PCS_ASJDATA
+  pctfree 10
+  initrans 1
+  maxtrans 255
+  storage
+  (
+    initial 64K
+    next 1M
+    minextents 1
+    maxextents unlimited
+  );
+-- Add comments to the table
+comment on table B_MESSAGE_CENTER_LOG
+  is '消息中心日志表';
+-- Add comments to the columns
+comment on column B_MESSAGE_CENTER_LOG.messageid
+  is '消息id(b_message_center主键)';
+comment on column B_MESSAGE_CENTER_LOG.type
+  is '类型';
+comment on column B_MESSAGE_CENTER_LOG.param
+  is '参数';
+comment on column B_MESSAGE_CENTER_LOG.result
+  is '返回内容';
+comment on column B_MESSAGE_CENTER_LOG.createtime
+  is '创建时间';
+comment on column B_MESSAGE_CENTER_LOG.clientip
+  is '客户端ip';
+-- Create/Recreate primary, unique and foreign key constraints
+alter table B_MESSAGE_CENTER_LOG
+  add primary key (SYSTEMID)
+  using index
+  tablespace PCS_ASJDATA
+  pctfree 10
+  initrans 2
+  maxtrans 255
+  storage
+  (
+    initial 64K
+    next 1M
+    minextents 1
+    maxextents unlimited
+  );
