@@ -45,12 +45,12 @@ public class EventPublish extends AuditEntity {
     /**
      * 请求参数
      */
-    @Column(name = "request_param", nullable = false, unique = false, length = 65535)
+    @Column(name = "request_param", unique = false, length = 65535)
     private java.lang.String requestParam;
     /**
      * 请求参数类型
      */
-    @Column(name = "request_param_type", nullable = false, unique = false, length = 500)
+    @Column(name = "request_param_type", unique = false, length = 500)
     private java.lang.String requestParamType;
     /**
      * 响应参数

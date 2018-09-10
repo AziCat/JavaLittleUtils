@@ -1,6 +1,9 @@
 package cn.sinobest.jzpt.message.config;
 
+import cn.sinobest.jzpt.message.annotation.PathParameter;
+
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * 方法元数据
@@ -15,6 +18,15 @@ public class MethodMetadata implements Serializable {
     private String key;
     private String consumes;
     private Integer maxRetry;
+    private List<PathParameter> pathParameterList;
+
+    public List<PathParameter> getPathParameterList() {
+        return pathParameterList;
+    }
+
+    public void setPathParameterList(List<PathParameter> pathParameterList) {
+        this.pathParameterList = pathParameterList;
+    }
 
     public Integer getMaxRetry() {
         return maxRetry;

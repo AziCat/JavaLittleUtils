@@ -3,15 +3,15 @@ package cn.sinobest.jzpt.message.config;
 
 import cn.sinobest.jzpt.message.DefaultMethodHandler;
 import cn.sinobest.jzpt.message.EventPublishMethodHandler;
-import cn.sinobest.jzpt.message.annotation.MessageRequestParam;
 import cn.sinobest.jzpt.message.Util;
+import cn.sinobest.jzpt.message.annotation.MessageRequestParam;
+import cn.sinobest.jzpt.message.annotation.PathParameter;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * 通过此类构建目标接口的代理类
@@ -38,11 +38,11 @@ public class ReflectiveMessage {
         Map<Method, InvocationHandlerFactory.MethodHandler> methodToHandler = new LinkedHashMap<>();
         for (Method method : type.getMethods()) {
             //检查接口中定义的方法必须有且只能有1个入参
-            if (!"equals".equals(method.getName()) && !"hashCode".equals(method.getName()) && !"toString".equals(method.getName())) {
+            /*if (!"equals".equals(method.getName()) && !"hashCode".equals(method.getName()) && !"toString".equals(method.getName())) {
                 if (method.getParameterCount() != 1) {
                     throw new Exception("[" + type + "]interface,method[" + method.getName() + "]should have at least one parameter and only one");
                 }
-            }
+            }*/
             if (null == method.getAnnotation(MessageRequestParam.class)) {
                 methodToHandler.put(method, new DefaultMethodHandler());
             } else if (method.getDeclaringClass() != Object.class) {
@@ -82,6 +82,27 @@ public class ReflectiveMessage {
             Integer maxRetry = messageRequestParam.maxRetry();
             methodMetadata.setMaxRetry(maxRetry);
         }
+        //获取方法参数内的PathParameter
+        int parameterCount = md.getParameterCount();
+        Annotation[][] an = md.getParameterAnnotations();
+        List<PathParameter> pathParameterList = new ArrayList<>();
+        if (an.length > 0) {
+            for (int i = 0; i < parameterCount; i++) {
+                if (an[i].length == 0) {
+                    pathParameterList.add(null);
+                } else {
+                    //过滤出PathParameter对象
+                    Arrays.stream(an[i]).forEach(item -> {
+                        if (item instanceof PathParameter) {
+                            pathParameterList.add((PathParameter) item);
+                        } else {
+                            pathParameterList.add(null);
+                        }
+                    });
+                }
+            }
+        }
+        methodMetadata.setPathParameterList(pathParameterList);
         return methodMetadata;
     }
 
